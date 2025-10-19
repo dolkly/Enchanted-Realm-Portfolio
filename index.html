@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magical Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body { 
+      font-family: 'Cinzel', 'Georgia', serif; 
+      background: url('Image/7c42746c-4047-4e79-a58a-893b21340e08.jpg') no-repeat center top; 
+      background-size: cover; 
+      background-attachment: fixed; 
+      background-color: #1a0a0a; 
+      min-height: 100vh; 
+      overflow-x: hidden; 
+      position: relative; 
+    }
+
+    /* Mobile background fix */
+    @media (max-width: 768px) {
+      body {
+        background-attachment: scroll;
+        background-position: center top;
+      }
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: clamp(20px, 5vw, 50px) clamp(15px, 4vw, 20px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Parchment Wrapper */
+    .parchment-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: clamp(15px, 3vw, 20px) auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .parchment-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-width: 100%;
+    }
+
+    .parchment-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 52%;
+      color: #5a3825;
+      font-size: clamp(0.7rem, 1.6vw, 1.1rem);
+      line-height: 1.5;
+      letter-spacing: 0.3px;
+      text-align: center;
+      padding: 0 2%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    .parchment-text p {
+      margin-bottom: 0.8em;
+    }
+
+    .parchment-text strong {
+      font-weight: 700;
+      color: #3d2817;
+    }
+
+    .typewriter {
+      display: inline;
+    }
+
+    .caret {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background-color: #5a3825;
+      margin-left: 2px;
+      animation: blink 0.8s infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    /* Button Section */
+    .button-scroll {
+      margin-top: clamp(40px, 8vw, 100px);
+      text-align: center;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .image-btn img {
+      width: 100%;
+      max-width: clamp(250px, 45vw, 480px);
+      height: auto;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      display: block;
+    }
+
+    .image-btn:hover img {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.7));
+    }
+
+    .image-btn:active img {
+      transform: scale(0.98);
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: #ffd700;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10;
+      animation: sparkleFloat 4s infinite ease-in-out;
+      box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffa500;
+    }
+
+    @keyframes sparkleFloat {
+      0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      50% { 
+        transform: translate(var(--tx), var(--ty)) scale(1.5); 
+        opacity: 0.8;
+      }
+      90% { opacity: 1; }
+    }
+
+    /* Music Control Button */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #8b0000, #6b0000);
+            border: 4px solid #d4a574;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            animation: musicPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .music-control:hover {
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 8px 30px rgba(255,215,0,0.6);
+        }
+        
+        .music-control::before {
+            content: '♪';
+            font-size: 30px;
+            color: #d4a574;
+            font-weight: bold;
+        }
+        
+        .music-control.paused::before {
+            content: '❙❙';
+            font-size: 24px;
+        }
+
+    /* Tablet Responsiveness */
+    @media (max-width: 1024px) {
+      .parchment-text {
+        width: 58%;
+        font-size: clamp(0.75rem, 1.5vw, 1rem);
+        padding: 0 2.5%;
+      }
+
+      .image-btn img {
+        max-width: clamp(220px, 40vw, 400px);
+      }
+    }
+
+    /* Mobile Large */
+    @media (max-width: 768px) {
+      .container {
+        padding: clamp(15px, 4vw, 30px) clamp(12px, 3vw, 18px);
+      }
+
+      .parchment-text {
+        width: 64%;
+        font-size: clamp(0.7rem, 2vw, 0.95rem);
+        line-height: 1.45;
+        padding: 0 3%;
+      }
+
+      .button-scroll {
+        margin-top: clamp(30px, 6vw, 70px);
+      }
+
+      .image-btn img {
+        max-width: clamp(200px, 50vw, 350px);
+      }
+
+      .sparkle {
+        width: 3px;
+        height: 3px;
+      }
+    }
+
+    /* Mobile Small */
+    @media (max-width: 480px) {
+      .parchment-wrapper {
+        margin: clamp(10px, 2vw, 15px) auto;
+      }
+
+      .parchment-text {
+        width: 70%;
+        font-size: clamp(0.65rem, 3.2vw, 0.88rem);
+        line-height: 1.4;
+        padding: 0 3.5%;
+        letter-spacing: 0.2px;
+      }
+
+      .parchment-text p {
+        margin-bottom: 0.7em;
+      }
+
+      .button-scroll {
+        margin-top: clamp(25px, 5vw, 50px);
+      }
+
+      .image-btn img {
+        max-width: clamp(180px, 60vw, 280px);
+      }
+    }
+
+    /* Extra Small Devices */
+    @media (max-width: 360px) {
+      .parchment-text {
+        width: 75%;
+        font-size: clamp(0.6rem, 3.5vw, 0.8rem);
+        line-height: 1.35;
+      }
+
+      .image-btn img {
+        max-width: clamp(160px, 65vw, 240px);
+      }
+    }
+
+    /* Landscape Mode for Mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .container {
+        padding: 15px 20px;
+      }
+
+      .parchment-wrapper {
+        margin: 10px auto;
+      }
+
+      .button-scroll {
+        margin-top: 30px;
+      }
+
+      .parchment-text {
+        font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="music/bba886ad51d319b2b3411acf45cebbbe_2.mp3" type="audio/mpeg">
+        <!-- Replace 'your-background-music.mp3' with your actual music file path -->
+    </audio>
+
+    <!-- Music Control Button -->
+    <div class="music-control" id="musicControl" onclick="toggleMusic()"></div>
+
+  <div class="container">
+    <div class="parchment-wrapper">
+      <img src="Image/d748aab6-dca7-48d2-bdb5-a76aa094c34a.png" alt="Scroll" class="parchment-img">
+      <div class="parchment-text">
+        <span class="typewriter" id="typewriter"></span><span class="caret" id="caret"></span>
+      </div>
+    </div>
+
+    <div class="button-scroll">
+      <button class="image-btn" onclick="window.location.href='page2.html'" aria-label="Navigate to next page">
+        <img src="Image/e6d874c3-4f0c-45f7-b050-a1564f329eab.png" alt="Next Page">
+      </button>
+    </div>
+  </div>
+
+  <script>
+        // ============================================
+        // BACKGROUND MUSIC CONTROL
+        // ============================================
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isPlaying = false;
+        
+        // Try to autoplay on page load
+        window.addEventListener('load', function() {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.remove('paused');
+            }).catch(error => {
+                // If autoplay is blocked, try on first user interaction
+                console.log('Autoplay blocked, waiting for user interaction');
+                isPlaying = false;
+                musicControl.classList.add('paused');
+            });
+        });
+        
+        // Fallback: Start music on any user interaction if autoplay failed
+        function startMusicOnInteraction() {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicControl.classList.remove('paused');
+                }).catch(e => {
+                    console.log('Music play failed:', e);
+                });
+            }
+            // Remove listeners after first successful play
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('touchstart', startMusicOnInteraction);
+            document.removeEventListener('keydown', startMusicOnInteraction);
+        }
+        
+        document.addEventListener('click', startMusicOnInteraction);
+        document.addEventListener('touchstart', startMusicOnInteraction);
+        document.addEventListener('keydown', startMusicOnInteraction);
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicControl.classList.add('paused');
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicControl.classList.remove('paused');
+                    isPlaying = true;
+                }).catch(e => {
+                    console.log('Music play failed:', e);
+                });
+            }
+        }
+
+    // Typewriter Effect
+    const text = `Welcome to <strong>The Enchanted Codebook</strong>, where creativity is as magical as a wand at Hogwarts. Whether you're a curious muggle or a wizarding soul, this is your Platform 9¾ — a gateway to ideas, projects, and stories that come alive.
+
+Just like Dumbledore once said, "Words are, in my not-so-humble opinion, our most inexhaustible source of magic." Here, we turn words, codes, and designs into spells of imagination and innovation.
+
+So grab your broomstick, put on your cloak, and step into a digital world that's truly enchanting. Every scroll and click will take you deeper into this magical portfolio.`;
+
+    const typewriterElement = document.getElementById('typewriter');
+    const caretElement = document.getElementById('caret');
+    let index = 0;
+    
+    // Responsive typing speed - faster on mobile
+    const isMobile = window.innerWidth <= 768;
+    const speed = isMobile ? 30 : 40;
+
+    function typeWriter() {
+      if (index < text.length) {
+        const char = text.charAt(index);
+        if (char === '\n') {
+          typewriterElement.innerHTML += '<br><br>';
+        } else if (text.substr(index, 8) === '<strong>') {
+          const endTag = text.indexOf('</strong>', index);
+          if (endTag !== -1) {
+            typewriterElement.innerHTML += text.substring(index, endTag + 9);
+            index = endTag + 8;
+          }
+        } else {
+          typewriterElement.innerHTML += char;
+        }
+        index++;
+        setTimeout(typeWriter, speed);
+      } else {
+        setTimeout(() => {
+          caretElement.style.display = 'none';
+        }, 1000);
+      }
+    }
+
+    // Sparkles - Reduced frequency on mobile for performance
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      
+      const startX = Math.random() * window.innerWidth;
+      const startY = Math.random() * window.innerHeight;
+      
+      sparkle.style.left = startX + 'px';
+      sparkle.style.top = startY + 'px';
+      sparkle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+      sparkle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+      sparkle.style.animationDelay = Math.random() * 2 + 's';
+      sparkle.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      
+      document.body.appendChild(sparkle);
+      
+      setTimeout(() => sparkle.remove(), 5000);
+    }
+
+    // Adjust sparkle frequency based on device
+    const sparkleInterval = isMobile ? 400 : 200;
+    setInterval(createSparkle, sparkleInterval);
+
+    // Start typewriter effect after page load
+    window.onload = () => {
+      setTimeout(typeWriter, 500);
+    };
+
+    // Handle orientation changes
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 100);
+    });
+  </script>
+</body>
+</html>

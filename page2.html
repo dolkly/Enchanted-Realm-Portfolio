@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hogwarts Magical Navigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        body {
+            font-family: 'Cinzel', 'Georgia', serif;
+            cursor: none;
+            background: #0a0a0a;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('p2image/92091764-0eff-4a76-8322-0bc480bc60be.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.7);
+            z-index: 0;
+        }
+
+        .background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .ember {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(255,140,0,0.8), transparent);
+            border-radius: 50%;
+            animation: floatEmber 8s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes floatEmber {
+            0% { opacity: 0; transform: translateY(100vh) translateX(0); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100px) translateX(50px); }
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 0;
+            padding: 5vh 5vw;
+            z-index: 1;
+        }
+
+        .crest-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        #gryffindor-wrapper { grid-column: 2; grid-row: 1; }
+        #hufflepuff-wrapper { grid-column: 1; grid-row: 2; }
+        #slytherin-wrapper { grid-column: 3; grid-row: 2; }
+        #ravenclaw-wrapper { grid-column: 2; grid-row: 3; }
+        #hogwarts-wrapper { grid-column: 2; grid-row: 2; z-index: 10; }
+
+        .crest {
+            width: 22vmin;
+            height: 22vmin;
+            min-width: 60px;
+            min-height: 60px;
+            max-width: 280px;
+            max-height: 280px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 0 2vmin rgba(255,255,255,0.3));
+            position: relative;
+        }
+
+        .crest::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .crest:hover::before {
+            opacity: 0.6;
+            box-shadow: 0 0 4vmin currentColor;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+        }
+
+        .crest:hover {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 4vmin currentColor);
+        }
+
+        .crest:active {
+            transform: scale(1.05);
+        }
+
+        #hogwarts-crest {
+            background-image: url('p2image/bb5e386e-7887-433b-8f1c-c5b02507ffcb-removebg-preview.png');
+            width: 26vmin;
+            height: 26vmin;
+            min-width: 80px;
+            min-height: 80px;
+            max-width: 340px;
+            max-height: 340px;
+            filter: drop-shadow(0 0 3vmin rgba(255,215,0,0.6));
+            animation: centralGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes centralGlow {
+            0%, 100% { filter: drop-shadow(0 0 3vmin rgba(255,215,0,0.6)); }
+            50% { filter: drop-shadow(0 0 5vmin rgba(255,215,0,0.9)); }
+        }
+
+        #hogwarts-crest::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: radiateLight 3s ease-in-out infinite;
+        }
+
+        @keyframes radiateLight {
+            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        #gryffindor { background-image: url('p2image/85f6803b-698e-4c6f-bb1e-d6b8254b6ec0-removebg-previe.png'); color: #ff4444; }
+        #slytherin { background-image: url('p2image/ca3b6928-c200-4b1e-9f65-dcd9d00498e9-removebg-preview.png'); color: #2ecc71; }
+        #ravenclaw { background-image: url('p2image/1d6bb08c-3670-4e63-bdc2-28e08b5fffe3-removebg-preview.png'); color: #3498db; }
+        #hufflepuff { background-image: url('p2image/4f686d17-4036-4e51-aa4f-efa3e39ab75a-removebg-preview.png'); color: #f1c40f; }
+
+        .electric-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 1.5vmin;
+            height: 1.5vmin;
+            min-width: 15px;
+            min-height: 15px;
+            max-width: 25px;
+            max-height: 25px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(147,112,219,0.8), transparent);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: screen;
+            box-shadow: 0 0 2vmin rgba(147,112,219,0.6);
+            display: none;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 0.8vmin;
+            height: 0.8vmin;
+            min-width: 6px;
+            min-height: 6px;
+            max-width: 12px;
+            max-height: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(147,112,219,0.6), transparent);
+            pointer-events: none;
+            z-index: 9998;
+            animation: fadeTrail 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeTrail {
+            to { opacity: 0; transform: scale(2); }
+        }
+
+        .portal-effect {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+        }
+
+        .portal-effect.active {
+            animation: portalBurst 1.2s ease-out forwards;
+        }
+
+        @keyframes portalBurst {
+            0% {
+                width: 0; height: 0; opacity: 1;
+                box-shadow: 0 0 0 0 currentColor, inset 0 0 5vmin currentColor;
+            }
+            40% {
+                width: 40vmin; height: 40vmin; opacity: 0.9;
+                box-shadow: 0 0 10vmin 5vmin currentColor, inset 0 0 10vmin currentColor;
+            }
+            100% {
+                width: 300vmin; height: 300vmin; opacity: 0;
+                box-shadow: 0 0 20vmin 10vmin currentColor, inset 0 0 20vmin currentColor;
+            }
+        }
+
+        .label {
+            position: absolute;
+            bottom: -4vmin;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 1.6vmin;
+            text-shadow: 0 0 1vmin rgba(0,0,0,0.9), 0 0 2vmin currentColor;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+            letter-spacing: 0.15vmin;
+            font-weight: 600;
+        }
+
+        .crest:hover .label {
+            opacity: 1;
+        }
+
+        .candle {
+            position: fixed;
+            width: 1.2vmin;
+            height: 3vmin;
+            min-width: 8px;
+            min-height: 20px;
+            max-width: 15px;
+            max-height: 35px;
+            background: linear-gradient(to top, #ffecb3 40%, #fff8e1 80%);
+            border-radius: 4px;
+            box-shadow: 0 0 1.5vmin 0.5vmin rgba(255, 230, 150, 0.6);
+            animation: floatCandle 10s ease-in-out infinite;
+            opacity: 0.8;
+            z-index: 2;
+        }
+        
+        .candle::after {
+            content: '';
+            position: absolute;
+            top: -0.8vmin;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0.5vmin;
+            height: 1vmin;
+            min-width: 4px;
+            min-height: 8px;
+            max-width: 6px;
+            max-height: 12px;
+            background: radial-gradient(circle, #ffcc80 30%, transparent 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 0.8vmin 0.3vmin rgba(255, 200, 120, 0.8);
+        }
+        
+        @keyframes floatCandle {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-2vmin) translateX(1vmin); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #8b0000, #6b0000);
+            border: 4px solid #d4a574;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            animation: musicPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .music-control:hover {
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 8px 30px rgba(255,215,0,0.6);
+        }
+        
+        .music-control::before {
+            content: '♪';
+            font-size: 30px;
+            color: #d4a574;
+            font-weight: bold;
+        }
+        
+        .music-control.paused::before {
+            content: '❙❙';
+            font-size: 24px;
+        }
+
+        /* Help/Guide Button */
+        .help-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #b48226, #d5b227);
+            border: 4px solid #faf760;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            animation: helpPulse 2.5s ease-in-out infinite;
+        }
+        
+        @keyframes helpPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 30px rgba(251, 222, 2, 0.6); }
+        }
+        
+        .help-button:hover {
+            transform: scale(1.2) rotate(-10deg);
+            box-shadow: 0 8px 30px rgba(96,165,250,0.8);
+        }
+        
+        .help-button::before {
+            content: '?';
+            font-size: 34px;
+            color: #60a5fa;
+            font-weight: bold;
+            font-family: Georgia, serif;
+        }
+
+        /* Guide Overlay */
+        .guide-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .guide-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .guide-content {
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1b1b 100%);
+            border: 3px solid #d4a574;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+            width: 85%;
+            box-shadow: 0 0 50px rgba(212, 165, 116, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: guideAppear 0.6s ease-out;
+        }
+
+        @keyframes guideAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .guide-content::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4a574, #8b6914, #d4a574);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .guide-title {
+            font-size: 28px;
+            color: #d4a574;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(212, 165, 116, 0.8);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .guide-instructions {
+            color: #e8d4b8;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .guide-instructions p {
+            margin-bottom: 12px;
+        }
+
+        .guide-instructions strong {
+            color: #ffd700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+
+        .guide-sections {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .guide-section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .guide-section-title {
+            color: #ffd700;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .guide-section-text {
+            color: #c9b896;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .guide-button {
+            background: linear-gradient(135deg, #8b0000, #6b0000);
+            color: #d4a574;
+            border: 3px solid #d4a574;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 20px rgba(139, 0, 0, 0.5);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .guide-button:hover {
+            background: linear-gradient(135deg, #a00000, #800000);
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6);
+        }
+
+        .guide-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Make sure guide button is clickable */
+        .guide-content {
+            position: relative;
+            z-index: 10001;
+        }
+
+        .guide-button {
+            position: relative;
+            z-index: 10002;
+            pointer-events: auto;
+        }
+
+        .guide-icon {
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: 15px;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 4K and Large Monitors (2560px+) */
+        @media (min-width: 2560px) {
+            .crest {
+                width: 20vmin;
+                height: 20vmin;
+                max-width: 320px;
+                max-height: 320px;
+            }
+
+            #hogwarts-crest {
+                width: 24vmin;
+                height: 24vmin;
+                max-width: 400px;
+                max-height: 400px;
+            }
+
+            .label {
+                font-size: 1.4vmin;
+            }
+        }
+
+        /* Large Desktop (1920px - 2559px) */
+        @media (min-width: 1920px) and (max-width: 2559px) {
+            .crest {
+                width: 21vmin;
+                height: 21vmin;
+            }
+
+            #hogwarts-crest {
+                width: 25vmin;
+                height: 25vmin;
+            }
+        }
+
+        /* Standard Desktop (1440px - 1919px) */
+        @media (min-width: 1440px) and (max-width: 1919px) {
+            .crest {
+                width: 20vmin;
+                height: 20vmin;
+            }
+
+            #hogwarts-crest {
+                width: 24vmin;
+                height: 24vmin;
+            }
+        }
+
+        /* Medium Desktop (1200px - 1439px) */
+        @media (min-width: 1200px) and (max-width: 1439px) {
+            .crest {
+                width: 19vmin;
+                height: 19vmin;
+            }
+
+            #hogwarts-crest {
+                width: 23vmin;
+                height: 23vmin;
+            }
+        }
+
+        /* Small Desktop / Large Tablet (1024px - 1199px) */
+        @media (min-width: 1024px) and (max-width: 1199px) {
+            .container {
+                padding: 4vh 4vw;
+            }
+
+            .crest {
+                width: 18vmin;
+                height: 18vmin;
+            }
+
+            #hogwarts-crest {
+                width: 22vmin;
+                height: 22vmin;
+            }
+
+            .label {
+                font-size: 1.5vmin;
+            }
+        }
+
+        /* Tablet Portrait & Landscape (768px - 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            body {
+                cursor: auto;
+            }
+
+            .custom-cursor {
+                display: none;
+            }
+
+            .container {
+                padding: 3vh 3vw;
+            }
+
+            .crest {
+                width: 16vmin;
+                height: 16vmin;
+                min-width: 70px;
+                min-height: 70px;
+            }
+
+            #hogwarts-crest {
+                width: 20vmin;
+                height: 20vmin;
+                min-width: 90px;
+                min-height: 90px;
+            }
+
+            .label {
+                font-size: 1.4vmin;
+                bottom: -3.5vmin;
+            }
+
+            .crest:active .label {
+                opacity: 1;
+            }
+
+            .guide-content {
+                padding: 25px;
+                max-width: 450px;
+            }
+
+            .guide-title {
+                font-size: 24px;
+            }
+
+            .guide-icon {
+                font-size: 45px;
+            }
+
+            .guide-instructions {
+                font-size: 13px;
+            }
+
+            .guide-section-text {
+                font-size: 11px;
+            }
+
+            .guide-button {
+                padding: 10px 30px;
+                font-size: 15px;
+            }
+        }
+
+        /* Large Mobile Landscape / Small Tablet (600px - 767px) */
+        @media (min-width: 600px) and (max-width: 767px) {
+            body {
+                cursor: auto;
+            }
+
+            .custom-cursor {
+                display: none;
+            }
+
+            .container {
+                padding: 2.5vh 2.5vw;
+            }
+
+            .crest {
+                width: 15vmin;
+                height: 15vmin;
+                min-width: 65px;
+                min-height: 65px;
+            }
+
+            #hogwarts-crest {
+                width: 19vmin;
+                height: 19vmin;
+                min-width: 85px;
+                min-height: 85px;
+            }
+
+            .label {
+                font-size: 1.3vmin;
+                bottom: -3vmin;
+            }
+
+            .crest:active .label {
+                opacity: 1;
+            }
+
+            .guide-content {
+                padding: 20px;
+                max-width: 400px;
+                width: 90%;
+            }
+
+            .guide-title {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+
+            .guide-icon {
+                font-size: 40px;
+                margin-bottom: 12px;
+            }
+
+            .guide-instructions {
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+
+            .guide-instructions p {
+                margin-bottom: 10px;
+            }
+
+            .guide-sections {
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+
+            .guide-section {
+                padding: 10px;
+            }
+
+            .guide-section-title {
+                font-size: 12px;
+                margin-bottom: 5px;
+            }
+
+            .guide-section-text {
+                font-size: 11px;
+            }
+
+            .guide-button {
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+        }
+
+        /* Mobile Landscape (480px - 599px) */
+        @media (min-width: 480px) and (max-width: 599px) {
+            body {
+                cursor: auto;
+            }
+
+            .custom-cursor {
+                display: none;
+            }
+
+            .container {
+                padding: 2vh 2vw;
+            }
+
+            .crest {
+                width: 14vmin;
+                height: 14vmin;
+                min-width: 55px;
+                min-height: 55px;
+            }
+
+            #hogwarts-crest {
+                width: 18vmin;
+                height: 18vmin;
+                min-width: 75px;
+                min-height: 75px;
+            }
+
+            .label {
+                font-size: 2vw;
+                bottom: -2.5vmin;
+            }
+
+            .guide-content {
+                padding: 18px;
+                max-width: 350px;
+                width: 92%;
+            }
+
+            .guide-title {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+
+            .guide-icon {
+                font-size: 35px;
+                margin-bottom: 10px;
+            }
+
+            .guide-instructions {
+                font-size: 11px;
+                margin-bottom: 12px;
+            }
+
+            .guide-instructions p {
+                margin-bottom: 8px;
+            }
+
+            .guide-sections {
+                gap: 7px;
+                margin-bottom: 12px;
+            }
+
+            .guide-section {
+                padding: 8px;
+            }
+
+            .guide-section-title {
+                font-size: 11px;
+                margin-bottom: 4px;
+            }
+
+            .guide-section-text {
+                font-size: 10px;
+            }
+
+            .guide-button {
+                padding: 9px 22px;
+                font-size: 13px;
+            }
+        }
+
+        /* Mobile Portrait (375px - 479px) */
+        @media (min-width: 375px) and (max-width: 479px) {
+            body {
+                cursor: auto;
+            }
+
+            .custom-cursor {
+                display: none;
+            }
+
+            .container {
+                padding: 1.5vh 1.5vw;
+            }
+
+            .crest {
+                width: 13vmin;
+                height: 13vmin;
+                min-width: 50px;
+                min-height: 50px;
+            }
+
+            #hogwarts-crest {
+                width: 17vmin;
+                height: 17vmin;
+                min-width: 70px;
+                min-height: 70px;
+            }
+
+            .label {
+                font-size: 2.2vw;
+                bottom: -2vmin;
+                letter-spacing: 0.1vmin;
+            }
+
+            .guide-content {
+                padding: 15px;
+                max-width: 320px;
+                width: 93%;
+                border-width: 2px;
+            }
+
+            .guide-title {
+                font-size: 18px;
+                margin-bottom: 10px;
+                letter-spacing: 1px;
+            }
+
+            .guide-icon {
+                font-size: 32px;
+                margin-bottom: 8px;
+            }
+
+            .guide-instructions {
+                font-size: 10px;
+                line-height: 1.4;
+                margin-bottom: 10px;
+            }
+
+            .guide-instructions p {
+                margin-bottom: 6px;
+            }
+
+            .guide-sections {
+                gap: 6px;
+                margin-bottom: 10px;
+            }
+
+            .guide-section {
+                padding: 7px;
+                border-radius: 8px;
+            }
+
+            .guide-section-title {
+                font-size: 10px;
+                margin-bottom: 3px;
+                letter-spacing: 0.5px;
+            }
+
+            .guide-section-text {
+                font-size: 9px;
+                line-height: 1.4;
+            }
+
+            .guide-button {
+                padding: 8px 20px;
+                font-size: 12px;
+                border-width: 2px;
+                letter-spacing: 1px;
+            }
+
+            .music-control {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .music-control::before {
+                font-size: 24px;
+            }
+
+            .music-control.paused::before {
+                font-size: 20px;
+            }
+
+            .help-button {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                border-width: 3px;
+            }
+
+            .help-button::before {
+                font-size: 28px;
+            }
+        }
+
+        /* Small Mobile (320px - 374px) */
+        @media (max-width: 374px) {
+            body {
+                cursor: auto;
+            }
+
+            .custom-cursor {
+                display: none;
+            }
+
+            .container {
+                padding: 1vh 1vw;
+            }
+
+            .crest {
+                width: 12vmin;
+                height: 12vmin;
+                min-width: 45px;
+                min-height: 45px;
+            }
+
+            #hogwarts-crest {
+                width: 16vmin;
+                height: 16vmin;
+                min-width: 65px;
+                min-height: 65px;
+            }
+
+            .label {
+                font-size: 2.5vw;
+                bottom: -1.8vmin;
+                letter-spacing: 0.05vmin;
+            }
+
+            .guide-content {
+                padding: 12px;
+                max-width: 300px;
+                width: 95%;
+                border-width: 2px;
+                border-radius: 15px;
+            }
+
+            .guide-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+                letter-spacing: 1px;
+            }
+
+            .guide-icon {
+                font-size: 28px;
+                margin-bottom: 6px;
+            }
+
+            .guide-instructions {
+                font-size: 9px;
+                line-height: 1.3;
+                margin-bottom: 8px;
+            }
+
+            .guide-instructions p {
+                margin-bottom: 5px;
+            }
+
+            .guide-sections {
+                gap: 5px;
+                margin-bottom: 8px;
+            }
+
+            .guide-section {
+                padding: 6px;
+                border-radius: 6px;
+            }
+
+            .guide-section-title {
+                font-size: 9px;
+                margin-bottom: 3px;
+                letter-spacing: 0.3px;
+            }
+
+            .guide-section-text {
+                font-size: 8px;
+                line-height: 1.3;
+            }
+
+            .guide-button {
+                padding: 7px 18px;
+                font-size: 11px;
+                border-width: 2px;
+                letter-spacing: 0.5px;
+            }
+
+            .music-control {
+                width: 45px;
+                height: 45px;
+                bottom: 15px;
+                left: 15px;
+            }
+
+            .music-control::before {
+                font-size: 20px;
+            }
+
+            .music-control.paused::before {
+                font-size: 18px;
+            }
+
+            .help-button {
+                width: 45px;
+                height: 45px;
+                bottom: 15px;
+                right: 15px;
+                border-width: 3px;
+            }
+
+            .help-button::before {
+                font-size: 24px;
+            }
+        }
+
+        /* Desktop hover effects only */
+        @media (hover: hover) and (pointer: fine) {
+            .custom-cursor {
+                display: block;
+            }
+
+            body {
+                cursor: none;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .crest:hover {
+                transform: none;
+            }
+
+            .crest:active {
+                transform: scale(1.1);
+            }
+
+            .crest::before {
+                display: none;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .container {
+                padding: 2vh 4vw;
+            }
+
+            .label {
+                bottom: -2.5vmin;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Guide Overlay -->
+    <div class="guide-overlay" id="guideOverlay">
+        <div class="guide-content" onclick="event.stopPropagation()">
+            <div class="guide-icon">✨🧙✨</div>
+            <div class="guide-title">Welcome to Hogwarts!</div>
+            <div class="guide-instructions">
+                <p><strong>How to Navigate:</strong></p>
+                <div class="guide-sections">
+                    <div class="guide-section">
+                        <div class="guide-section-title">🖱️ Desktop Users</div>
+                        <div class="guide-section-text">Hover over the house crests to see magical connections light up. Click any crest to enter that section of the portfolio.</div>
+                    </div>
+                    <div class="guide-section">
+                        <div class="guide-section-title">📱 Mobile Users</div>
+                        <div class="guide-section-text">Tap on any house crest to explore different sections. Hold briefly to see labels appear.</div>
+                    </div>
+                    <div class="guide-section">
+                        <div class="guide-section-title">🔮 Hogwarts Crest (Center)</div>
+                        <div class="guide-section-text">This is your Home Crest. Click it to return to the main page of my portfolio — the heart of all enchantments.</div>
+                    </div>
+                    <div class="guide-section">
+                        <div class="guide-section-title">❤️ Red Crest – About Me</div>
+                        <div class="guide-section-text">This crest reveals who I am beyond the magic — my story, journey, and the light that drives my creations.</div>
+                    </div>
+                    <div class="guide-section">
+                        <div class="guide-section-title">💚 Green Crest – Historical Stories</div>
+                        <div class="guide-section-text">Unlocks my past and experiences. Each enchanted envelope hides a magical story about my education, experiences, and life outside the classroom.</div>
+                    </div>
+                    <div class="guide-section">
+                        <div class="guide-section-title">💛 Yellow Crest – Masterpieces</div>
+                        <div class="guide-section-text">A portal to my creations and achievements. Click the pictures within to open gateways to my featured works and external links.</div>
+                    </div>
+                    <div class="guide-section">
+                        <div class="guide-section-title">💙 Blue Crest – Invitation </div>
+                        <div class="guide-section-text">The path to connect with me — a page of letters and invitations, where you can find my contact portals or send me a magical message.</div>
+                    </div>
+                    <div class="guide-section">
+                        <div class="guide-section-title">🎵 Music Control</div>
+                        <div class="guide-section-text">Click the music button in the bottom-left corner to play or pause the magical background music.</div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;"><strong>Choose your path wisely, young wizard! 🪄</strong></p>
+            </div>
+            <button class="guide-button" onclick="closeGuide(); event.stopPropagation();">Begin Your Journey</button>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="music/bba886ad51d319b2b3411acf45cebbbe_2.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Control Button -->
+    <div class="music-control" id="musicControl" onclick="toggleMusic()"></div>
+
+    <!-- Help/Guide Button -->
+    <div class="help-button" id="helpButton" onclick="openGuide()"></div>
+
+    <div class="background" id="bg"></div>
+    <canvas class="electric-canvas" id="electricCanvas"></canvas>
+    <div class="custom-cursor"></div>
+    <div class="portal-effect"></div>
+    
+    <div class="container">
+        <div class="crest-wrapper" id="gryffindor-wrapper">
+            <div class="crest" id="gryffindor" onclick="navigate('page3.html', this)">
+                <div class="label">ABOUT ME</div>
+            </div>
+        </div>
+
+        <div class="crest-wrapper" id="hufflepuff-wrapper">
+            <div class="crest" id="hufflepuff" onclick="navigate('page5.html', this)">
+                <div class="label">MASTERPIECES</div>
+            </div>
+        </div>
+
+        <div class="crest-wrapper" id="hogwarts-wrapper">
+            <div class="crest" id="hogwarts-crest" onclick="navigate('index.html', this)">
+                <div class="label">BACK TO LETTER</div>
+            </div>
+        </div>
+
+        <div class="crest-wrapper" id="slytherin-wrapper">
+            <div class="crest" id="slytherin" onclick="navigate('page4.html', this)">
+                <div class="label">HISTORICAL STORIES</div>
+            </div>
+        </div>
+
+        <div class="crest-wrapper" id="ravenclaw-wrapper">
+            <div class="crest" id="ravenclaw" onclick="navigate('page6.html', this)">
+                <div class="label">INVITATION</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // GUIDE OVERLAY CONTROL
+        // ============================================
+        function closeGuide() {
+            const guideOverlay = document.getElementById('guideOverlay');
+            guideOverlay.classList.add('hidden');
+            
+            // Try to start music when guide is closed
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicControl.classList.remove('paused');
+                }).catch(e => {
+                    console.log('Music autoplay prevented');
+                });
+            }
+        }
+
+        function openGuide() {
+            const guideOverlay = document.getElementById('guideOverlay');
+            guideOverlay.classList.remove('hidden');
+        }
+
+        // ============================================
+        // BACKGROUND MUSIC CONTROL
+        // ============================================
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isPlaying = false;
+        
+        // Try to autoplay on page load
+        window.addEventListener('load', function() {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.remove('paused');
+            }).catch(error => {
+                console.log('Autoplay blocked, waiting for user interaction');
+                isPlaying = false;
+                musicControl.classList.add('paused');
+            });
+        });
+        
+        // Fallback: Start music on any user interaction if autoplay failed
+        function startMusicOnInteraction() {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicControl.classList.remove('paused');
+                }).catch(e => {
+                    console.log('Music play failed:', e);
+                });
+            }
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('touchstart', startMusicOnInteraction);
+            document.removeEventListener('keydown', startMusicOnInteraction);
+        }
+        
+        document.addEventListener('click', startMusicOnInteraction);
+        document.addEventListener('touchstart', startMusicOnInteraction);
+        document.addEventListener('keydown', startMusicOnInteraction);
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicControl.classList.add('paused');
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicControl.classList.remove('paused');
+                    isPlaying = true;
+                }).catch(e => {
+                    console.log('Music play failed:', e);
+                });
+            }
+        }
+
+        // ============================================
+        // CANVAS SETUP
+        // ============================================
+        const canvas = document.getElementById('electricCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+            ctx.scale(dpr, dpr);
+        }
+        resizeCanvas();
+
+        function getCrestCenter(id) {
+            const el = document.getElementById(id);
+            if (!el) return { x: 0, y: 0 };
+            const rect = el.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+
+        class ElectricConnection {
+            constructor(fromId, toId, color) {
+                this.fromId = fromId;
+                this.toId = toId;
+                this.color = color;
+                this.particles = [];
+                this.intensity = 0.5;
+                this.hovered = false;
+                this.offset = Math.random() * 100;
+            }
+
+            draw(time) {
+                const from = getCrestCenter(this.fromId);
+                const to = getCrestCenter(this.toId);
+                
+                if (from.x === 0 || to.x === 0) return;
+
+                const lineWidth = Math.max(2, window.innerWidth / 800);
+                const glowIntensity = Math.max(15, window.innerWidth / 100);
+
+                ctx.save();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = this.hovered ? lineWidth * 1.5 : lineWidth;
+                ctx.globalAlpha = 0.6 + Math.sin(time * 0.003 + this.offset) * 0.2;
+                ctx.shadowBlur = this.hovered ? glowIntensity * 1.5 : glowIntensity;
+                ctx.shadowColor = this.color;
+
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                
+                const segments = 8;
+                const waveAmplitude = Math.max(5, window.innerWidth / 150);
+                
+                for (let i = 1; i <= segments; i++) {
+                    const t = i / segments;
+                    const x = from.x + (to.x - from.x) * t;
+                    const y = from.y + (to.y - from.y) * t;
+                    const offset = Math.sin(time * 0.005 + t * 5 + this.offset) * (this.hovered ? waveAmplitude * 1.5 : waveAmplitude);
+                    
+                    if (Math.abs(to.x - from.x) > Math.abs(to.y - from.y)) {
+                        ctx.lineTo(x, y + offset);
+                    } else {
+                        ctx.lineTo(x + offset, y);
+                    }
+                }
+                
+                ctx.stroke();
+
+                ctx.globalAlpha = 0.3;
+                ctx.lineWidth = this.hovered ? lineWidth * 3 : lineWidth * 2;
+                ctx.shadowBlur = glowIntensity * 2;
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(to.x, to.y);
+                ctx.stroke();
+
+                ctx.restore();
+
+                this.updateParticles(from, to, time);
+            }
+
+            updateParticles(from, to, time) {
+                const particleSize = Math.max(2, window.innerWidth / 400);
+                
+                if (Math.random() < (this.hovered ? 0.15 : 0.05)) {
+                    this.particles.push({
+                        progress: 0,
+                        speed: 0.005 + Math.random() * 0.01,
+                        size: particleSize + Math.random() * particleSize
+                    });
+                }
+
+                this.particles = this.particles.filter(p => {
+                    p.progress += p.speed;
+                    
+                    if (p.progress >= 1) return false;
+
+                    const x = from.x + (to.x - from.x) * p.progress;
+                    const y = from.y + (to.y - from.y) * p.progress;
+
+                    ctx.save();
+                    ctx.fillStyle = this.color;
+                    ctx.shadowBlur = Math.max(10, window.innerWidth / 120);
+                    ctx.shadowColor = this.color;
+                    ctx.globalAlpha = 1 - p.progress;
+                    ctx.beginPath();
+                    ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+
+                    return true;
+                });
+            }
+        }
+
+        const connections = [
+            new ElectricConnection('hogwarts-crest', 'gryffindor', '#ff4444'),
+            new ElectricConnection('hogwarts-crest', 'slytherin', '#2ecc71'),
+            new ElectricConnection('hogwarts-crest', 'ravenclaw', '#3498db'),
+            new ElectricConnection('hogwarts-crest', 'hufflepuff', '#f1c40f')
+        ];
+
+        let animationId;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const time = Date.now();
+            
+            connections.forEach(conn => conn.draw(time));
+            
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        animate();
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                resizeCanvas();
+            }, 100);
+        });
+
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                resizeCanvas();
+            }, 200);
+        });
+
+        document.querySelectorAll('.crest').forEach((crest) => {
+            crest.addEventListener('mouseenter', function() {
+                if (this.id !== 'hogwarts-crest') {
+                    const conn = connections.find(c => c.toId === this.id);
+                    if (conn) conn.hovered = true;
+                }
+            });
+            
+            crest.addEventListener('mouseleave', function() {
+                if (this.id !== 'hogwarts-crest') {
+                    const conn = connections.find(c => c.toId === this.id);
+                    if (conn) conn.hovered = false;
+                }
+            });
+
+            crest.addEventListener('touchstart', function(e) {
+                if (this.id !== 'hogwarts-crest') {
+                    const conn = connections.find(c => c.toId === this.id);
+                    if (conn) conn.hovered = true;
+                }
+            });
+
+            crest.addEventListener('touchend', function(e) {
+                if (this.id !== 'hogwarts-crest') {
+                    const conn = connections.find(c => c.toId === this.id);
+                    if (conn) {
+                        setTimeout(() => {
+                            conn.hovered = false;
+                        }, 200);
+                    }
+                }
+            });
+        });
+
+        const cursor = document.querySelector('.custom-cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (window.innerWidth > 768 && Math.random() > 0.85) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 600);
+            }
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        const bg = document.getElementById('bg');
+        const screenWidth = window.innerWidth;
+        const emberCount = screenWidth > 1920 ? 40 : screenWidth > 1024 ? 30 : screenWidth > 768 ? 20 : 10;
+        
+        for (let i = 0; i < emberCount; i++) {
+            const ember = document.createElement('div');
+            ember.className = 'ember';
+            ember.style.left = Math.random() * 100 + '%';
+            ember.style.animationDelay = Math.random() * 8 + 's';
+            ember.style.animationDuration = (8 + Math.random() * 4) + 's';
+            bg.appendChild(ember);
+        }
+
+        const candleCount = screenWidth > 1920 ? 25 : screenWidth > 1024 ? 20 : screenWidth > 768 ? 15 : 8;
+        
+        for (let i = 0; i < candleCount; i++) {
+            const candle = document.createElement('div');
+            candle.className = 'candle';
+            candle.style.left = Math.random() * 100 + '%';
+            candle.style.top = Math.random() * 80 + '%';
+            candle.style.animationDelay = Math.random() * 5 + 's';
+            candle.style.animationDuration = (8 + Math.random() * 5) + 's';
+            document.body.appendChild(candle);
+        }
+
+        function navigate(page, element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const color = window.getComputedStyle(element).color;
+            
+            const conn = connections.find(c => c.toId === element.id);
+            if (conn) {
+                conn.intensity = 2;
+                
+                const burstCount = Math.min(50, Math.floor(window.innerWidth / 30));
+                for (let i = 0; i < burstCount; i++) {
+                    setTimeout(() => {
+                        conn.particles.push({
+                            progress: 0,
+                            speed: 0.02,
+                            size: Math.max(3, window.innerWidth / 300) + Math.random() * Math.max(3, window.innerWidth / 300)
+                        });
+                    }, i * 10);
+                }
+            }
+            
+            const portal = document.querySelector('.portal-effect');
+            portal.style.backgroundColor = color;
+            portal.style.left = centerX + 'px';
+            portal.style.top = centerY + 'px';
+            portal.classList.add('active');
+            
+            setTimeout(() => {
+                window.location.href = page;
+            }, 1200);
+        }
+
+        window.addEventListener('beforeunload', () => {
+            cancelAnimationFrame(animationId);
+        });
+
+        if ('ontouchstart' in window) {
+            document.body.style.cursor = 'auto';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Stories - Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=UnifrakturMaguntia&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cinzel', serif;
+            overflow-x: hidden;
+            background: #2d2416;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="rgba(255,215,0,0.3)" stroke="gold" stroke-width="1"/></svg>'), auto;
+        }
+        
+        /* Custom Cursor Trail */
+        .cursor-trail {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,0,0.8), transparent);
+            pointer-events: none;
+            z-index: 9999;
+            animation: sparkle 0.5s ease-out forwards;
+        }
+        
+        @keyframes sparkle {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        /* Main Container with Background Image Placeholder */
+        .main-container {
+            min-height: 100vh;
+            background: linear-gradient(180deg, rgba(232,220,196,0.95) 0%, rgba(212,196,168,0.95) 50%, rgba(184,168,140,0.95) 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .main-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('p4image/e89c930c-5821-4b7c-b519-ba5aed83dbf6.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.8;
+            z-index: 0;
+            animation: backgroundPulse 10s ease-in-out infinite;
+        }
+        
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Header Section */
+        .header {
+            position: relative;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 100;
+        }
+        
+        .crest-img {
+            width: 10%;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+            animation: floatCrest 3s ease-in-out infinite;
+        }
+        
+        @keyframes floatCrest {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .hogwarts-crest {
+            cursor: pointer;
+        }
+        
+        .hogwarts-crest:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 8px 16px rgba(255,215,0,0.6));
+        }
+        
+        /* Placeholder for crests if images not provided */
+        .crest-placeholder {
+            width: 80px;
+            height: 80px;
+            background: rgba(139,111,71,0.2);
+            border: 3px solid #8b6f47;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #8b6f47;
+            text-align: center;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        
+        .hogwarts-crest.crest-placeholder {
+            cursor: pointer;
+        }
+        
+        .hogwarts-crest.crest-placeholder:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        /* Title Banner - Placeholder for scroll image */
+        .title-banner {
+            text-align: center;
+            margin: 20px auto 40px;
+            max-width: 700px;
+            position: relative;
+            z-index: 10;
+            animation: titleEntrance 1.5s ease-out;
+        }
+        
+        @keyframes titleEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .title-banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5)); }
+            50% { filter: drop-shadow(0 10px 40px rgba(255,215,0,0.4)); }
+        }
+        
+        .title-scroll-placeholder {
+            background: linear-gradient(90deg, #d4a574 0%, #e8c9a0 20%, #f4e4c1 50%, #e8c9a0 80%, #d4a574 100%);
+            padding: 30px 60px;
+            border: 4px solid #8b6f47;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            position: relative;
+            clip-path: polygon(3% 0%, 97% 0%, 100% 3%, 100% 97%, 97% 100%, 3% 100%, 0% 97%, 0% 3%);
+        }
+        
+        .title-scroll-placeholder::before,
+        .title-scroll-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 120%;
+            background: linear-gradient(180deg, #b8956d 0%, #8b6f47 50%, #b8956d 100%);
+            transform: translateY(-50%);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+        
+        .title-scroll-placeholder::before {
+            left: -5px;
+        }
+        
+        .title-scroll-placeholder::after {
+            right: -5px;
+        }
+        
+        .title-scroll-placeholder h1 {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 2.8rem;
+            color: #2d2416;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Animated Elements */
+        .animated-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        .animated-item {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .owl {
+            width: 120px;
+            height: 120px;
+            background-image: url('p4image/d0df704e-3e4e-4a4e-87d6-eaee8339be30.png');
+            border-radius: 50%;
+            animation: flyOwl 25s infinite ease-in-out;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        .broomstick {
+            width: 150px;
+            height: 80px;
+            background-image: url('p4image/9637ef01-10f5-4f95-a6b8-65a1f3350035.png');
+            border-radius: 15px;
+            animation: flyBroom 18s infinite ease-in-out;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        .snitch {
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle, gold, #d4a574);
+            border-radius: 50%;
+            box-shadow: 0 0 25px rgba(255,215,0,0.7);
+            animation: floatSnitch 15s infinite ease-in-out;
+        }
+        
+        @keyframes flyOwl {
+            0%, 100% { top: 10%; left: -10%; transform: rotate(-20deg); }
+            25% { top: 20%; left: 30%; transform: rotate(10deg); }
+            50% { top: 15%; left: 80%; transform: rotate(-15deg); }
+            75% { top: 25%; left: 50%; transform: rotate(5deg); }
+        }
+        
+        @keyframes flyBroom {
+            0%, 100% { top: 35%; left: 110%; transform: rotate(-15deg); }
+            50% { top: 45%; left: -15%; transform: rotate(-20deg); }
+        }
+        
+        @keyframes floatSnitch {
+            0%, 100% { bottom: 25%; left: 10%; transform: scale(1); }
+            25% { bottom: 35%; left: 85%; transform: scale(1.2); }
+            50% { bottom: 20%; left: 60%; transform: scale(0.9); }
+            75% { bottom: 30%; left: 30%; transform: scale(1.1); }
+        }
+        
+        /* Section Container */
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 120px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Decorative divider placeholders */
+        .section-divider {
+            width: 100%;
+            max-width: 500px;
+            height: 80px;
+            margin: 50px auto 30px;
+            background-image: url('PLACEHOLDER-DIVIDER-IMAGE.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: dividerFade 2s ease-in-out;
+        }
+        
+        @keyframes dividerFade {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .section-divider-placeholder {
+            width: 100%;
+            max-width: 500px;
+            height: 2px;
+            margin: 50px auto 30px;
+            background: linear-gradient(90deg, transparent, #8b6f47, transparent);
+            position: relative;
+        }
+        
+        .section-divider-placeholder::before,
+        .section-divider-placeholder::after {
+            content: '⚜';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8b6f47;
+            font-size: 2rem;
+        }
+        
+        .section-divider-placeholder::before {
+            left: 30%;
+        }
+        
+        .section-divider-placeholder::after {
+            right: 30%;
+        }
+        
+        .section-title {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 2.2rem;
+            text-align: center;
+            color: #2d2416;
+            margin: 20px 0 50px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: titleAppear 1s ease-out;
+        }
+        
+        @keyframes titleAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Envelope Grid */
+        .envelope-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+            justify-items: center;
+            margin: 40px 0 80px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Envelope Container */
+        .envelope {
+            width: 240px;
+            height: 170px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.4s ease, filter 0.3s ease;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+            animation: envelopeFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes envelopeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .envelope:hover {
+            transform: translateY(-15px) scale(1.08);
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
+            animation: envelopeShake 0.5s ease-in-out;
+        }
+        
+        @keyframes envelopeShake {
+            0%, 100% { transform: translateY(-15px) scale(1.08) rotate(0deg); }
+            25% { transform: translateY(-15px) scale(1.08) rotate(-2deg); }
+            75% { transform: translateY(-15px) scale(1.08) rotate(2deg); }
+        }
+        
+        .envelope-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Envelope Placeholder if no image */
+        .envelope-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #c6b693 0%, #ccc2ac 100%);
+            border: 3px solid #97794e;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .envelope-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, #af9b77 0%, #bfac80 100%);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            border: 3px solid #8b6f47;
+            border-bottom: none;
+        }
+        
+        .wax-seal {
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle, #8b0000, #6b0000);
+            border-radius: 50%;
+            border: 4px solid #5d0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #d4a574;
+            font-family: 'UnifrakturMaguntia', cursive;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 2;
+            animation: sealPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes sealPulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+            50% { box-shadow: 0 4px 25px rgba(139,0,0,0.7); }
+        }
+        
+        /* Pop-up Parchment */
+        .parchment-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .parchment-popup.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .parchment-container {
+            position: relative;
+            max-width: 900px;
+            max-height: 95vh;
+            width: 90%;
+            animation: zoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.7) rotate(-5deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        
+        /* Parchment Background Image or Placeholder */
+        .parchment-bg-img {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+        
+        .parchment-bg-placeholder {
+            background: linear-gradient(180deg, #f4e4c1 0%, #e8d4b0 50%, #d4c4a8 100%);
+            border: 10px solid #8b6f47;
+            border-radius: 15px;
+            padding: 80px 50px 100px;
+            box-shadow: 
+                0 0 60px rgba(255,215,0,0.4),
+                inset 0 0 80px rgba(139,111,71,0.15);
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+            clip-path: polygon(2% 0%, 98% 0%, 100% 2%, 100% 98%, 98% 100%, 2% 100%, 0% 98%, 0% 2%);
+            animation: parchmentGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes parchmentGlow {
+            0%, 100% { box-shadow: 0 0 60px rgba(255,215,0,0.4), inset 0 0 80px rgba(139,111,71,0.15); }
+            50% { box-shadow: 0 0 80px rgba(255,215,0,0.6), inset 0 0 100px rgba(139,111,71,0.25); }
+        }
+        
+        .parchment-bg-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" /></filter><rect width="200" height="200" filter="url(%23paper)" opacity="0.05"/></svg>');
+            pointer-events: none;
+            border-radius: 15px;
+        }
+        
+        /* Decorative Elements on Parchment */
+        .back-arrow {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            width: 55px;
+            height: 55px;
+            background: rgba(139,111,71,0.4);
+            border: 3px solid #8b6f47;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 28px;
+            color: #2d2416;
+            transition: all 0.3s ease;
+            z-index: 100;
+            font-weight: bold;
+            animation: arrowBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-5px); }
+        }
+        
+        .back-arrow:hover {
+            background: rgba(139,111,71,0.7);
+            transform: scale(1.15) rotate(-10deg);
+        }
+        
+        .parchment-content {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #2d2416;
+            text-align: justify;
+            position: relative;
+            z-index: 10;
+            animation: textFade 1s ease-out;
+        }
+        
+        @keyframes textFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .parchment-content h2 {
+            font-family: 'UnifrakturMaguntia', cursive;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #2d2416;
+            animation: titleShimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleShimmer {
+            0%, 100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+            50% { text-shadow: 2px 2px 8px rgba(255,215,0,0.3); }
+        }
+        
+        /* Decorative placeholder images on parchment */
+        .parchment-decorations {
+            position: absolute;
+            pointer-events: none;
+        }
+        
+        .hp-logo-container {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 70px;
+            height: 70px;
+            z-index: 100;
+            animation: logoSpin 10s linear infinite;
+        }
+        
+        @keyframes logoSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .hp-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .hp-logo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: rgba(255,215,0,0.3);
+            border-radius: 50%;
+            border: 3px solid #8b6f47;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 32px;
+            color: #8b6f47;
+            font-weight: bold;
+        }
+        
+        .platform-badge-container {
+            position: absolute;
+            bottom: 120px;
+            right: 35px;
+            width: 90px;
+            height: 90px;
+            z-index: 100;
+            animation: badgeBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes badgeBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .platform-badge-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .platform-badge-placeholder {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #8b0000, #6b0000);
+            border-radius: 50%;
+            border: 4px solid #d4a574;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #d4a574;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        .lamp-container {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 70px;
+            height: 90px;
+            z-index: 100;
+        }
+        
+        .lamp-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: flicker 3s infinite;
+        }
+        
+        .lamp-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(184,134,11,0.4), rgba(139,111,71,0.5));
+            border-radius: 15px 15px 5px 5px;
+            border: 3px solid #8b6f47;
+            position: relative;
+            animation: flicker 3s infinite;
+        }
+        
+        .lamp-placeholder::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 10px;
+            background: #8b6f47;
+            border-radius: 5px;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { 
+                box-shadow: 0 0 25px rgba(255,215,0,0.6);
+                filter: brightness(1);
+            }
+            50% { 
+                box-shadow: 0 0 45px rgba(255,215,0,0.9);
+                filter: brightness(1.3);
+            }
+        }
+        
+        .quill-container {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            width: 50px;
+            height: 70px;
+            z-index: 100;
+            animation: quillWrite 3s ease-in-out infinite;
+        }
+        
+        @keyframes quillWrite {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+        
+        .quill-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .quill-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(101,67,33,0.4), rgba(139,111,71,0.3));
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            border: 2px solid #8b6f47;
+        }
+        
+        /* Hogwarts Express Train at bottom */
+        .train-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(180deg, transparent, rgba(45,36,22,0.8));
+            z-index: 5;
+            pointer-events: none;
+        }
+        
+        .train-img {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: bottom;
+        }
+        
+        /* Music Control Button */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #8b0000, #6b0000);
+            border: 4px solid #d4a574;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            animation: musicPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .music-control:hover {
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 8px 30px rgba(255,215,0,0.6);
+        }
+        
+        .music-control::before {
+            content: '♪';
+            font-size: 30px;
+            color: #d4a574;
+            font-weight: bold;
+        }
+        
+        .music-control.paused::before {
+            content: '❙❙';
+            font-size: 24px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .envelope-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .title-scroll-placeholder h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .envelope-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+            
+            .envelope {
+                width: 220px;
+                height: 155px;
+            }
+            
+            .parchment-bg-placeholder {
+                padding: 70px 30px 90px;
+            }
+            
+            .parchment-content {
+                font-size: 1rem;
+            }
+            
+            .parchment-content h2 {
+                font-size: 2rem;
+            }
+            
+            .crest-img, .crest-placeholder {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .back-arrow {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+            
+            .music-control {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                left: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title-scroll-placeholder h1 {
+                font-size: 1.5rem;
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .envelope {
+                width: 200px;
+                height: 140px;
+            }
+            
+            .hp-logo-container,
+            .platform-badge-container,
+            .lamp-container,
+            .quill-container {
+                width: 50px;
+                height: 50px;
+            }
+        }
+        
+        /* Magical Particles */
+        .particle {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            background: gold;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s infinite ease-in-out;
+            opacity: 0.7;
+            box-shadow: 0 0 10px rgba(255,215,0,0.8);
+        }
+        
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) translateX(0) scale(1); 
+                opacity: 0.7;
+            }
+            25% { 
+                transform: translateY(-30px) translateX(15px) scale(1.2); 
+                opacity: 1;
+            }
+            50% { 
+                transform: translateY(-60px) translateX(-15px) scale(0.8); 
+                opacity: 0.5;
+            }
+            75% { 
+                transform: translateY(-30px) translateX(10px) scale(1.1); 
+                opacity: 0.9;
+            }
+        }
+        
+        /* Falling Stars Effect */
+        .falling-star {
+            position: fixed;
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(180deg, transparent, gold);
+            pointer-events: none;
+            z-index: 40;
+            animation: fall 3s linear infinite;
+        }
+        
+        @keyframes fall {
+            from {
+                transform: translateY(-100px) translateX(0) rotate(45deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh) translateX(100px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="music/bba886ad51d319b2b3411acf45cebbbe_2.mp3" type="audio/mpeg">
+        <!-- Replace 'your-background-music.mp3' with your actual music file path -->
+    </audio>
+    
+    <!-- Music Control Button -->
+    <div class="music-control" id="musicControl" onclick="toggleMusic()"></div>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header with Crests -->
+        <div class="header">
+            <!-- Hogwarts Crest (Clickable) -->
+            <img src="p4image/bb5e386e-7887-433b-8f1c-c5b02507ffcb-removebg-preview.png" alt="Hogwarts Crest" class="crest-img hogwarts-crest" onclick="window.location.href='page2.html'">
+
+            <!-- Replace above with: <img src="your-hogwarts-crest.png" class="crest-img hogwarts-crest" onclick="goToHome()" alt="Hogwarts Crest"> -->
+            
+            <!-- Slytherin Crest (Fixed) -->
+            <img src="p4image/ca3b6928-c200-4b1e-9f65-dcd9d00498e9-removebg-preview.png" class="crest-img" alt="Slytherin Crest">
+
+            <!-- Replace above with: <img src="your-slytherin-crest.png" class="crest-img" alt="Slytherin Crest"> -->
+        </div>
+        
+        <!-- Title Banner -->
+        <div class="title-banner">
+            <!-- Option 1: Use actual scroll image -->
+            <!-- <img src="your-title-scroll.png" class="title-banner-img" alt="Historical Stories"> -->
+            
+            <!-- Option 2: Placeholder scroll -->
+             <div class="title-banner">
+                <img src="p4image/590013d6-0814-440e-8a4b-acf4b94ce23f.png" class="title-banner-img" alt="Historical Stories">
+            </div>
+        </div>
+        
+        <!-- Animated Flying Elements -->
+        <div class="animated-elements">
+            <div class="owl animated-item"></div>
+            <div class="broomstick animated-item"></div>
+            <div class="snitch"></div>
+        </div>
+        
+        <!-- Content Section -->
+        <div class="content-section">
+            
+            <!-- HISTORICAL EDUCATIONS SECTION -->
+            <div class="section-divider" style="background-image: url('p4image/4d7a1a50-a232-4553-87b2-157db72a7bae-removebg-preview.png');"></div>
+            <!-- Replace with: <div class="section-divider" style="background-image: url('your-divider-1.png');"></div> -->
+            
+            <h2 class="section-title">Historical Educations</h2>
+            
+            <div class="envelope-grid">
+                <div class="envelope" onclick="openParchment('education1')">
+                    <!-- <img src="your-envelope-1.png" class="envelope-img" alt="Envelope"> -->
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+                <div class="envelope" onclick="openParchment('education2')">
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+                <div class="envelope" onclick="openParchment('education3')">
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- HISTORIC EXPERIENCES SECTION -->
+            <div class="section-divider" style="background-image: url('p4image/4d7a1a50-a232-4553-87b2-157db72a7bae-removebg-preview.png');"></div>
+            <!-- Replace with: <div class="section-divider" style="background-image: url('your-divider-2.png');"></div> -->
+            
+            <h2 class="section-title">Historic Experiences</h2>
+            
+            <div class="envelope-grid">
+                <div class="envelope" onclick="openParchment('experience1')">
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+                <div class="envelope" onclick="openParchment('experience2')">
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+                <div class="envelope" onclick="openParchment('experience3')">
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- HISTORIC LIFE SECTION -->
+            <div class="section-divider" style="background-image: url('p4image/4d7a1a50-a232-4553-87b2-157db72a7bae-removebg-preview.png');"></div>
+            <!-- Replace with: <div class="section-divider" style="background-image: url('your-divider-3.png');"></div> -->
+            
+            <h2 class="section-title">Historic Life</h2>
+            
+            <div class="envelope-grid">
+                <div class="envelope" onclick="openParchment('life1')">
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+                <div class="envelope" onclick="openParchment('life2')">
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+                <div class="envelope" onclick="openParchment('life3')">
+                    <div class="envelope-placeholder">
+                        <div class="wax-seal">H</div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Hogwarts Express Train Section at Bottom -->
+        <div class="train-section">
+            <!-- <img src="your-hogwarts-express-train.png" class="train-img" alt="Hogwarts Express"> -->
+            <div class="train-placeholder"></div>
+        </div>
+    </div>
+    
+    <!-- Parchment Pop-up Message -->
+    <div class="parchment-popup" id="parchmentPopup">
+        <div class="parchment-container">
+            <!-- Option 1: Use actual parchment image as background -->
+            <!-- <img src="your-parchment-bg.png" class="parchment-bg-img" alt="Parchment"> -->
+            
+            <!-- Option 2: Placeholder parchment -->
+            <div class="parchment-bg-placeholder">
+                
+                <!-- Back Arrow -->
+                <div class="back-arrow" onclick="closeParchment()">←</div>
+                
+                <!-- HP Logo (Top Right) -->
+                <div class="hp-logo-container">
+                    <!-- <img src="your-hp-logo.png" class="hp-logo-img" alt="HP Logo"> -->
+                    <div class="hp-logo-placeholder">HP</div>
+                </div>
+                
+                <!-- Platform 9¾ Badge -->
+                <div class="platform-badge-container">
+                    <!-- <img src="your-platform-badge.png" class="platform-badge-img" alt="Platform 9¾"> -->
+                    <div class="platform-badge-placeholder">9¾</div>
+                </div>
+                
+                <!-- Flickering Lamp (Bottom Right) -->
+                <div class="lamp-container">
+                    <!-- <img src="your-lamp.png" class="lamp-img" alt="Lamp"> -->
+                    <img src="p4image/898d314d-20da-4866-88f9-1a3547706042.png" class="lamp-img" alt="Lamp">
+                </div>
+                
+                <!-- Quill and Inkpot (Bottom Left) -->
+                <div class="quill-container">
+                    <!-- <img src="your-quill.png" class="quill-img" alt="Quill"> -->
+                    <div class="quill-placeholder"></div>
+                </div>
+                
+                <!-- Parchment Content (Story Text) -->
+                <div class="parchment-content" id="parchmentContent">
+                    <h2>Historical Story</h2>
+                    <p>
+                        Dear Reader,<br><br>
+                        This is where your magical story begins. Each envelope contains a unique tale from the archives of history, preserved through the ages by the most powerful preservation charms.<br><br>
+                        Within these pages, you will discover stories of great wizards and witches, legendary battles, ancient spells, and the founding of the greatest school of witchcraft and wizardry.<br><br>
+                        Turn the page, and let the magic unfold before your eyes...<br><br>
+                        Yours in magic,<br>
+                        <em>The Keeper of Stories</em>
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ============================================
+        // BACKGROUND MUSIC CONTROL
+        // ============================================
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isPlaying = false;
+        
+        // Try to autoplay on page load
+        window.addEventListener('load', function() {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.remove('paused');
+            }).catch(error => {
+                // If autoplay is blocked, try on first user interaction
+                console.log('Autoplay blocked, waiting for user interaction');
+                isPlaying = false;
+                musicControl.classList.add('paused');
+            });
+        });
+        
+        // Fallback: Start music on any user interaction if autoplay failed
+        function startMusicOnInteraction() {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicControl.classList.remove('paused');
+                }).catch(e => {
+                    console.log('Music play failed:', e);
+                });
+            }
+            // Remove listeners after first successful play
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('touchstart', startMusicOnInteraction);
+            document.removeEventListener('keydown', startMusicOnInteraction);
+        }
+        
+        document.addEventListener('click', startMusicOnInteraction);
+        document.addEventListener('touchstart', startMusicOnInteraction);
+        document.addEventListener('keydown', startMusicOnInteraction);
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicControl.classList.add('paused');
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicControl.classList.remove('paused');
+                    isPlaying = true;
+                }).catch(e => {
+                    console.log('Music play failed:', e);
+                });
+            }
+        }
+        
+        // ============================================
+        // CURSOR TRAIL EFFECT
+        // ============================================
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.85) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 500);
+            }
+        });
+        
+        // ============================================
+        // CREATE FLOATING MAGICAL PARTICLES
+        // ============================================
+        function createParticles() {
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+        createParticles();
+        
+        // ============================================
+        // CREATE FALLING STARS EFFECT
+        // ============================================
+        function createFallingStars() {
+            setInterval(() => {
+                const star = document.createElement('div');
+                star.className = 'falling-star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.animationDuration = (2 + Math.random() * 2) + 's';
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 5000);
+            }, 3000);
+        }
+        createFallingStars();
+        
+        // ============================================
+        // STORY CONTENT DATA
+        // ============================================
+        const stories = {
+            education1: {
+                title: "The Beginning Spell — Guinacutan Elementary School",
+                content: "Once upon a time, in the quiet village of Guinacutan, a young dreamer began his magical journey through learning.<br><br>Each morning, the echo of laughter and the gentle rustle of notebooks filled the air — for this was where Kenneth Jane first discovered the joy of friendship and curiosity.<br><br>At Guinacutan Elementary School, spells weren't cast with wands but with pencils and chalk. It was here he learned not just to read and write, but to dream — to believe that knowledge could open portals to infinite worlds.<br><br>And while the lessons have long been written in his past, the memories of those friends and early adventures still glow like fireflies in his heart, never forgotten."
+            },
+            education2: {
+                title: "The Journey of Transformation — Sarah Jane Ferrer High School → Vinzons Pilot High School",
+                content: "As the pages of time turned, Kenneth entered the enchanted corridors of Sarah Jane Ferrer High School — a realm filled with lessons that challenged his courage and wisdom.<br><br>Yet fate had another spell in store.<br><br>Midway through his academic quest, he found himself in a new kingdom — Vinzons Pilot High School, where new faces awaited and new chapters unfolded.<br><br>Here, he faced trials, formed unbreakable bonds, and uncovered the magic of perseverance.<br><br>It was within these castle walls that Kenneth graduated with honor — proof that no change of path can dim the light of one's destiny."
+            },
+            education3: {
+                title: "The Ongoing Saga — Camarines Norte State College",
+                content: "Now, the young wizard studies at Camarines Norte State College, pursuing the Bachelor of Science in Information Systems.<br><br>This chapter of his story is one of deeper enchantment — where knowledge meets innovation, and dreams begin to take their final form.<br><br>Each day, he writes spells not on parchment but in code, crafting ideas into reality.<br><br>Here, Kenneth continues to grow — an explorer in the digital realm, learning that magic can live in logic, and that every line of code is a spark of creation."
+            },
+            experience1: {
+                title: "The Pathmaker's Scroll — NSTP & BITSCON",
+                content: "In this tale, Kenneth became not just a student, but a leader.<br><br>During the NSTP program, he was chosen to guide his teammates — to carve a safe and clear path for others to follow. It was a journey of service, responsibility, and heart.<br><br>Later, another spell was added to his scroll: BITSCON — a grand gathering of tech sorcerers and digital innovators.<br><br>There, Kenneth absorbed the wisdom of the realm of technology and proudly earned his certificate of participation, marking another step in his adventure toward mastery."
+            },
+            experience2: {
+                title: "The Creation Spell — Liham Café V1 & V2",
+                content: "Every wizard has a spell that defines them — and for Kenneth, it was Liham Café.<br><br>Born from a spark of inspiration and brewed with passion, Liham Café V1 became his first great digital enchantment. It was more than a project; it was a story — a space where letters carried emotions across time.<br><br>As the spell evolved, Liham Café V2 emerged — stronger, wiser, and more heartfelt, proving that even digital creations can hold human warmth."
+            },
+            experience3: {
+                title: "The Fellowship of Code — PASSCSE App",
+                content: "In his next quest, Kenneth joined forces with four other wizards to create something truly purposeful — PASSCSE, an application to help review for the Civil Service Examination.<br><br>Each member carried their own power — design, logic, code, and creativity — but Kenneth's contribution shined like a guiding charm. Together, they built an app that didn't just function, but inspired others to chase their dreams."
+            },
+            life1: {
+                title: "The Wand of Simplicity",
+                content: "Beyond the halls of learning, I live a simple yet meaningful life. I enjoy the calm mornings, the scent of coffee, and the warmth of sunlight that slips through my window. I find joy in small things — a quiet walk, laughter with friends, or moments of peace where I can simply be myself. Life outside the classroom isn't about grades or deadlines — it's about living with gratitude and balance, and finding magic in ordinary days."
+            },
+            life2: {
+                title: "The Enchanted Hobby Room",
+                content: "When the world slows down, I retreat into my own magical space — a place where creativity flows freely. Sometimes I'm writing letters, designing, or exploring ideas that spark my imagination. Other times, I enjoy music, movies, or spending time with people who make me laugh. These hobbies aren't just pastimes — they are spells that keep my heart light, my mind inspired, and my spirit alive."
+            },
+            life3: {
+                title: "The Map of Tomorrow",
+                content: "Outside the classroom, I'm also a dreamer and a planner. I imagine a future where I can create, inspire, and bring ideas to life — perhaps through technology, art, or meaningful projects. I want to explore the world, meet new people, and keep growing as a person. My life may not always follow a straight path, but with determination as my compass and passion as my guide, I know I'll always find my way."
+            }
+        };
+        
+        // ============================================
+        // OPEN PARCHMENT FUNCTION
+        // ============================================
+        function openParchment(storyId) {
+            const popup = document.getElementById('parchmentPopup');
+            const content = document.getElementById('parchmentContent');
+            const story = stories[storyId];
+            
+            if (story) {
+                content.innerHTML = `
+                    <h2>${story.title}</h2>
+                    <p>${story.content}</p>
+                `;
+            } else {
+                content.innerHTML = `
+                    <h2>Story Not Found</h2>
+                    <p>This magical tale seems to have vanished into thin air. Please try another envelope.</p>
+                `;
+            }
+            
+            popup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Add sparkle effect when opening
+            createSparkles();
+        }
+        
+        // ============================================
+        // CLOSE PARCHMENT FUNCTION
+        // ============================================
+        function closeParchment() {
+            const popup = document.getElementById('parchmentPopup');
+            popup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // ============================================
+        // GO TO HOME PAGE
+        // ============================================
+        function goToHome() {
+            alert('Returning to Home Page...\n(Add your home page link here)');
+            // window.location.href = 'your-home-page.html';
+        }
+        
+        // ============================================
+        // CLOSE ON OUTSIDE CLICK
+        // ============================================
+        document.getElementById('parchmentPopup').addEventListener('click', (e) => {
+            if (e.target.id === 'parchmentPopup') {
+                closeParchment();
+            }
+        });
+        
+        // ============================================
+        // CLOSE WITH ESC KEY
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeParchment();
+            }
+        });
+        
+        // ============================================
+        // SPARKLE EFFECT WHEN OPENING PARCHMENT
+        // ============================================
+        function createSparkles() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.style.position = 'fixed';
+                    sparkle.style.left = (30 + Math.random() * 40) + '%';
+                    sparkle.style.top = (30 + Math.random() * 40) + '%';
+                    sparkle.style.width = '10px';
+                    sparkle.style.height = '10px';
+                    sparkle.style.background = 'gold';
+                    sparkle.style.borderRadius = '50%';
+                    sparkle.style.pointerEvents = 'none';
+                    sparkle.style.zIndex = '9999';
+                    sparkle.style.boxShadow = '0 0 20px gold';
+                    sparkle.style.animation = 'sparkle 0.8s ease-out forwards';
+                    document.body.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 800);
+                }, i * 50);
+            }
+        }
+        
+        // ============================================
+        // SMOOTH SCROLL BEHAVIOR
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

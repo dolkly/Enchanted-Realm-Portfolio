@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitations - Hogwarts Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body { 
+            font-family: 'Cinzel', 'Georgia', serif; 
+            background: url('p6image/9a290b29-bef6-4133-8674-8881c4dcc0b6.jpg') no-repeat center top; 
+            background-size: cover; 
+            background-attachment: fixed; 
+            background-color: #1a0a0a; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            position: relative; 
+        }
+
+        /* Floating Candles */
+        .floating-candles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .candle {
+            position: absolute;
+            width: 8px;
+            height: 40px;
+            background: linear-gradient(to bottom, #f4e4c1 0%, #e8d4a8 100%);
+            border-radius: 4px;
+            animation: floatCandle 15s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(255, 200, 100, 0.6);
+        }
+
+        .candle::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #ffd700 0%, #ff8c00 50%, transparent 70%);
+            border-radius: 50%;
+            animation: flicker 2s ease-in-out infinite;
+        }
+
+        @keyframes floatCandle {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-30px) translateX(15px);
+            }
+            50% {
+                transform: translateY(-10px) translateX(-15px);
+            }
+            75% {
+                transform: translateY(-40px) translateX(10px);
+            }
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        /* Magical Particles */
+        .magic-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: particleFloat 8s ease-in-out infinite;
+            opacity: 0;
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        /* Enchanted Fog */
+        .fog {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 300px;
+            background: linear-gradient(to top, rgba(138, 98, 186, 0.3), transparent);
+            animation: fogMove 30s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes fogMove {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('p6image/9a290b29-bef6-4133-8674-8881c4dcc0b6.jpg');
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.1s ease-out;
+        }
+
+        .content-wrapper {
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        /* Crests */
+        .crest {
+            position: fixed;
+            top: 20px;
+            width: 100px;
+            height: 100px;
+            z-index: 1000;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+        }
+
+        .crest img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
+        }
+
+        .hogwarts-crest {
+            left: 20px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .hogwarts-crest:hover {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1));
+        }
+
+        .ravenclaw-crest {
+            right: 20px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 15px rgba(0, 102, 204, 0.6));
+            }
+            50% {
+                filter: drop-shadow(0 0 30px rgba(0, 102, 204, 1));
+            }
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding-top: 140px;
+            padding-bottom: 60px;
+        }
+
+        /* Banner */
+        .invitations-banner {
+            margin-bottom: 60px;
+            animation: fadeInDown 1.5s ease-in;
+            position: relative;
+        }
+
+        .invitations-banner::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        .invitations-banner img {
+            max-width: 500px;
+            width: 100%;
+            filter: drop-shadow(0 10px 30px rgba(212, 175, 55, 0.6));
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Social Icons */
+        .social-icons {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.5s forwards;
+            max-width: 90%;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .social-icon {
+            width: 65px;
+            height: 65px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #1a1410;
+            font-size: 28px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icon:nth-child(1) { animation-delay: 0s; }
+        .social-icon:nth-child(2) { animation-delay: 0.2s; }
+        .social-icon:nth-child(3) { animation-delay: 0.4s; }
+        .social-icon:nth-child(4) { animation-delay: 0.6s; }
+        .social-icon:nth-child(5) { animation-delay: 0.8s; }
+        .social-icon:nth-child(6) { animation-delay: 1s; }
+        .social-icon:nth-child(7) { animation-delay: 1.2s; }
+        .social-icon:nth-child(8) { animation-delay: 1.4s; }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-18px) rotate(5deg);
+            }
+        }
+
+        .social-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.4), transparent);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+            border-radius: 50%;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.25) translateY(-12px) rotate(10deg);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.7);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 255, 255, 0.95));
+        }
+
+        .social-icon:hover::after {
+            transform: scale(2);
+            opacity: 0;
+        }
+
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ffd700, #ff8c00, #ffd700);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            animation: rotate 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .social-icon:hover::before {
+            opacity: 1;
+            animation-play-state: running;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Inquiry Form */
+        .inquiry-form {
+            background: linear-gradient(135deg, rgba(245, 235, 210, 0.98) 0%, rgba(255, 248, 230, 0.98) 100%);
+            padding: 50px 40px 40px;
+            border-radius: 20px;
+            max-width: 650px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.3);
+            border: 3px solid #8b7355;
+            opacity: 0;
+            animation: slideUp 1s ease-out 1s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inquiry-form::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 90px;
+            background-image: url('p6image/d0df704e-3e4e-4a4e-87d6-eaee8339be30.png');
+            background-size: contain;
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.6));
+            animation: sealFloat 3s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes sealFloat {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px) rotate(5deg);
+            }
+        }
+
+        .inquiry-form::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: shimmer 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(20px, 20px) rotate(45deg);
+                opacity: 1;
+            }
+        }
+
+        .inquiry-form h2 {
+            text-align: center;
+            margin-bottom: 35px;
+            margin-top: 25px;
+            color: #2c2416;
+            font-size: 36px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: textGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            }
+            50% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3), 0 0 20px rgba(212, 175, 55, 0.5);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #2c2416;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #8b7355;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Georgia', serif;
+            font-size: 15px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 10px rgba(212, 175, 55, 0.2);
+            background: #fff;
+            transform: translateY(-2px);
+        }
+
+        .form-group textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #8b4513 100%);
+            border: none;
+            border-radius: 50px;
+            color: #f5ebd2;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .submit-btn::before {
+            content: '✨';
+            position: absolute;
+            left: -100%;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.7), 0 0 30px rgba(255, 215, 0, 0.5);
+            background: linear-gradient(135deg, #a0522d 0%, #8b4513 50%, #a0522d 100%);
+        }
+
+        .submit-btn:hover::before {
+            left: 20px;
+        }
+
+        .submit-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-2px);
+        }
+
+        /* Enhanced Sparkles */
+        .sparkle {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle, #ffd700, #ff8c00);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleAnimation 2s ease-out forwards;
+            z-index: 9999;
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        @keyframes sparkleAnimation {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-150px) rotate(360deg);
+            }
+        }
+
+        /* Magic Trail */
+        .magic-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.8), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: trailFade 1s ease-out forwards;
+            z-index: 9998;
+        }
+
+        @keyframes trailFade {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(2);
+            }
+        }
+
+        /* Music Control Button */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #8b0000, #6b0000);
+            border: 4px solid #d4a574;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            animation: musicPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .music-control:hover {
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 8px 30px rgba(255,215,0,0.6);
+        }
+        
+        .music-control::before {
+            content: '♪';
+            font-size: 30px;
+            color: #d4a574;
+            font-weight: bold;
+        }
+        
+        .music-control.paused::before {
+            content: '❙❙';
+            font-size: 24px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                padding-top: 120px;
+            }
+
+            .invitations-banner img {
+                max-width: 400px;
+            }
+
+            .social-icons {
+                gap: 20px;
+            }
+
+            .social-icon {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .crest {
+                width: 70px;
+                height: 70px;
+                top: 10px;
+            }
+
+            .hogwarts-crest {
+                left: 10px;
+            }
+
+            .ravenclaw-crest {
+                right: 10px;
+            }
+
+            .invitations-banner img {
+                max-width: 280px;
+            }
+
+            .invitations-banner {
+                margin-bottom: 40px;
+            }
+
+            .social-icons {
+                gap: 15px;
+                margin-bottom: 50px;
+            }
+
+            .social-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+
+            .inquiry-form {
+                padding: 40px 25px 30px;
+                width: 95%;
+            }
+
+            .inquiry-form h2 {
+                font-size: 26px;
+                margin-bottom: 25px;
+            }
+
+            .inquiry-form::before {
+                width: 70px;
+                height: 70px;
+            }
+
+            .main-container {
+                padding-top: 90px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .candle {
+                width: 6px;
+                height: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .crest {
+                width: 60px;
+                height: 60px;
+            }
+
+            .invitations-banner img {
+                max-width: 240px;
+            }
+
+            .social-icons {
+                gap: 12px;
+                max-width: 100%;
+            }
+
+            .social-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .inquiry-form {
+                padding: 35px 20px 25px;
+            }
+
+            .inquiry-form h2 {
+                font-size: 22px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .submit-btn {
+                padding: 14px;
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .social-icon {
+                width: 42px;
+                height: 42px;
+            }
+
+            .inquiry-form h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="music/bba886ad51d319b2b3411acf45cebbbe_2.mp3" type="audio/mpeg">
+        <!-- Replace 'your-background-music.mp3' with your actual music file path -->
+    </audio>
+
+    <!-- Music Control Button -->
+    <div class="music-control" id="musicControl" onclick="toggleMusic()"></div>
+
+    <!-- Floating Candles -->
+    <div class="floating-candles" id="candlesContainer"></div>
+
+    <!-- Magic Particles -->
+    <div class="magic-particles" id="particlesContainer"></div>
+
+    <!-- Enchanted Fog -->
+    <div class="fog"></div>
+
+    <!-- Background -->
+    <div class="background-container">
+        <div class="parallax-layer"></div>
+    </div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Crests -->
+        <a href="page2.html" class="crest hogwarts-crest" title="Back to Home">
+            <img src="p5image/bb5e386e-7887-433b-8f1c-c5b02507ffcb-removebg-preview.png" alt="Hogwarts Crest">
+        </a>
+        <div class="crest ravenclaw-crest">
+            <img src="p6image/1d6bb08c-3670-4e63-bdc2-28e08b5fffe3-removebg-preview.png" alt="Ravenclaw Crest">
+        </div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Invitations Banner -->
+            <div class="invitations-banner">
+                <img src="p6image/24df36f0-be58-4a7a-899b-c198cc96aeb1-removebg-preview.png" alt="Invitations Banner">
+            </div>
+
+            <!-- Social Media Icons -->
+            <div class="social-icons">
+                <a href="https://github.com/dolkly" target="_blank" class="social-icon" title="GitHub">
+                    <img src="p6image/4a4b6e57-f93a-469d-910e-c16e7b0f34a9-Photoroom.png" alt="GitHub Logo" style="width: 60%; height: 60%;">
+                </a>
+                <a href="https://ph.linkedin.com/in/kenneth-jane-7271b030a" target="_blank" class="social-icon" title="LinkedIn">
+                    <img src="p6image/d0443c1a-39d5-4626-824d-db6c93e8aaeb-removebg-preview.png" alt="LinkedIn Logo" style="width: 60%; height: 60%;">
+                </a>
+                <a href="https://www.facebook.com/share/1BGbM9xUqQ/" target="_blank" class="social-icon" title="Facebook">
+                    <img src="p6image/60881747-9798-4a11-ab0e-a693189cea44-removebg-preview.png" alt="Facebook Logo" style="width: 60%; height: 60%;">
+                </a>
+                <a href="https://www.tiktok.com/@kentucky11_11?_t=ZS-90aR12faqkj&_r=1" target="_blank" class="social-icon" title="TikTok">
+                    <img src="p6image/af3a2403-54de-40a4-aecf-a8e8d9e38905-Photoroom.png" alt="TikTok Logo" style="width: 60%; height: 60%;">
+                </a>
+                <a href="https://www.threads.com/@ur.kenj" target="_blank" class="social-icon" title="Threads">
+                    <img src="p6image/3888be70-82c4-4f66-abf9-8da8e49d16fb-Photoroom.png" alt="Threads Logo" style="width: 60%; height: 60%;">
+                </a>
+                <a href="https://x.com/luize25780143?t=BUSt4c7gSbEj0ldRoh-qwA&s=09" target="_blank" class="social-icon" title="X">
+                    <img src="p6image/1974da1e-5c1f-4e05-aab8-1edaabb97b2a-Photoroom.png" alt="X Logo" style="width: 60%; height: 60%;">
+                </a>
+                <a href="https://m.me/kennethjane.aguilar?hash=AbZfRabRnkyv7zdE&source=qr_link_share" target="_blank" class="social-icon" title="Messenger">
+                    <img src="p6image/bc7d5ef6-2d3a-4556-b6cc-54e8e1f6594a-removebg-preview.png" alt="Messenger Logo" style="width: 60%; height: 60%;">
+                </a>
+                <a href="https://www.instagram.com/ur.kenj?igsh=YnltYWVxZWRpMWZt" target="_blank" class="social-icon" title="Instagram">
+                    <img src="p6image/40f5fa87-1773-458d-aaef-b24797b6d42f-removebg-preview.png" alt="Instagram Logo" style="width: 60%; height: 60%;">
+                </a>
+            </div>
+
+            <!-- Inquiry Form -->
+            <form class="inquiry-form" id="inquiryForm">
+                <h2>Send an Owl</h2>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Gmail Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <input type="tel" id="contact" name="contact" required placeholder="+1 234 567 8900">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message or Inquiry</label>
+                    <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // BACKGROUND MUSIC CONTROL
+        // ============================================
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isPlaying = false;
+        
+        // Try to autoplay on page load
+        window.addEventListener('load', function() {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.remove('paused');
+            }).catch(error => {
+                // If autoplay is blocked, try on first user interaction
+                console.log('Autoplay blocked, waiting for user interaction');
+                isPlaying = false;
+                musicControl.classList.add('paused');
+            });
+        });
+        
+        // Fallback: Start music on any user interaction if autoplay failed
+        function startMusicOnInteraction() {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicControl.classList.remove('paused');
+                }).catch(e => {
+                    console.log('Music play failed:', e);
+                });
+            }
+            // Remove listeners after first successful play
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('touchstart', startMusicOnInteraction);
+            document.removeEventListener('keydown', startMusicOnInteraction);
+        }
+        
+        document.addEventListener('click', startMusicOnInteraction);
+        document.addEventListener('touchstart', startMusicOnInteraction);
+        document.addEventListener('keydown', startMusicOnInteraction);
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicControl.classList.add('paused');
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicControl.classList.remove('paused');
+                    isPlaying = true;
+                }).catch(e => {
+                    console.log('Music play failed:', e);
+                });
+            }
+        }
+
+        // Create Floating Candles
+        function createCandles() {
+            const container = document.getElementById('candlesContainer');
+            const candleCount = window.innerWidth < 768 ? 8 : 8;
+            
+            for (let i = 0; i < candleCount; i++) {
+                const candle = document.createElement('div');
+                candle.className = 'candle';
+                candle.style.left = Math.random() * 100 + '%';
+                candle.style.top = Math.random() * 100 + '%';
+                candle.style.animationDelay = Math.random() * 5 + 's';
+                candle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                container.appendChild(candle);
+            }
+        }
+
+        // Create Magic Particles
+        function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            const particleCount = window.innerWidth < 768 ? 20 : 40;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize magical elements
+        createCandles();
+        createParticles();
+
+        // Enhanced Parallax Effect
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 30;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 30;
+        });
+
+        function animateParallax() {
+            currentX += (mouseX - currentX) * 0.1;
+            currentY += (mouseY - currentY) * 0.1;
+            
+            const parallax = document.querySelector('.parallax-layer');
+            if (parallax) {
+                parallax.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.1)`;
+            }
+            
+            requestAnimationFrame(animateParallax);
+        }
+
+        animateParallax();
+
+        // Enhanced Sparkle Effect
+        let sparkleTimeout;
+        let lastSparkleTime = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastSparkleTime > 30) {
+                if (Math.random() > 0.7) {
+                    createSparkle(e.clientX, e.clientY);
+                    createMagicTrail(e.clientX, e.clientY);
+                }
+                lastSparkleTime = now;
+            }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = (x + (Math.random() - 0.5) * 20) + 'px';
+            sparkle.style.top = (y + (Math.random() - 0.5) * 20) + 'px';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+
+        function createMagicTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'magic-trail';
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            document.body.appendChild(trail);
+            
+            setTimeout(() => {
+                trail.remove();
+            }, 1000);
+        }
+
+        // Form Submission Handler with Enhanced Effects
+        document.getElementById('inquiryForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                contact: document.getElementById('contact').value,
+                message: document.getElementById('message').value
+            };
+
+            // Create mailto link
+            const mailtoLink = `mailto:kennethjane670@gmail.com?subject=Portfolio Inquiry from ${encodeURIComponent(formData.name)}&body=Name: ${encodeURIComponent(formData.name)}%0D%0AEmail: ${encodeURIComponent(formData.email)}%0D%0AContact: ${encodeURIComponent(formData.contact)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
+            
+            window.location.href = mailtoLink;
+
+            // Create magical explosion effect
+            const form = document.querySelector('.inquiry-form');
+            const rect = form.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const angle = (Math.PI * 2 * i) / 50;
+                    const distance = Math.random() * 200 + 100;
+                    const x = centerX + Math.cos(angle) * distance;
+                    const y = centerY + Math.sin(angle) * distance;
+                    createSparkle(x, y);
+                }, i * 20);
+            }
+
+            // Create circular burst
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createSparkle(
+                        centerX + (Math.random() - 0.5) * 300,
+                        centerY + (Math.random() - 0.5) * 300
+                    );
+                }, i * 30);
+            }
+
+            // Show success message with style
+            setTimeout(() => {
+                alert('Your owl is on its way! 🦉✨\n\nYour message has been prepared and will open in your email client.');
+            }, 500);
+            
+            // Reset form
+            setTimeout(() => {
+                e.target.reset();
+            }, 1000);
+        });
+
+        // Scroll Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.social-icons, .inquiry-form').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Enhanced magical sparkles on icon hover
+        document.querySelectorAll('.social-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', (e) => {
+                const rect = e.target.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const angle = (Math.PI * 2 * i) / 8;
+                        const distance = 40;
+                        createSparkle(
+                            centerX + Math.cos(angle) * distance,
+                            centerY + Math.sin(angle) * distance
+                        );
+                    }, i * 50);
+                }
+            });
+
+            // Continuous sparkle on hover
+            let sparkleInterval;
+            icon.addEventListener('mouseenter', () => {
+                sparkleInterval = setInterval(() => {
+                    const rect = icon.getBoundingClientRect();
+                    createSparkle(
+                        rect.left + rect.width / 2 + (Math.random() - 0.5) * 60,
+                        rect.top + rect.height / 2 + (Math.random() - 0.5) * 60
+                    );
+                }, 150);
+            });
+
+            icon.addEventListener('mouseleave', () => {
+                clearInterval(sparkleInterval);
+            });
+        });
+
+        // Magical input focus effect
+        document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
+            input.addEventListener('focus', (e) => {
+                const rect = e.target.getBoundingClientRect();
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        createSparkle(
+                            rect.left + Math.random() * rect.width,
+                            rect.top + Math.random() * rect.height
+                        );
+                    }, i * 50);
+                }
+            });
+        });
+
+        // Crest click effects
+        document.querySelectorAll('.crest').forEach(crest => {
+            crest.addEventListener('click', (e) => {
+                const rect = crest.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const angle = Math.random() * Math.PI * 2;
+                        const distance = Math.random() * 100;
+                        createSparkle(
+                            centerX + Math.cos(angle) * distance,
+                            centerY + Math.sin(angle) * distance
+                        );
+                    }, i * 30);
+                }
+            });
+        });
+
+        // Banner magical glow on load
+        window.addEventListener('load', () => {
+            const banner = document.querySelector('.invitations-banner');
+            if (banner) {
+                const rect = banner.getBoundingClientRect();
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => {
+                        createSparkle(
+                            rect.left + Math.random() * rect.width,
+                            rect.top + Math.random() * rect.height
+                        );
+                    }, i * 100);
+                }
+            }
+        });
+
+        // Submit button magical effect
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.addEventListener('mouseenter', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createSparkle(
+                        rect.left + Math.random() * rect.width,
+                        rect.top + Math.random() * rect.height
+                    );
+                }, i * 40);
+            }
+        });
+
+        // Random ambient sparkles
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                createSparkle(
+                    Math.random() * window.innerWidth,
+                    Math.random() * window.innerHeight
+                );
+            }
+        }, 1000);
+
+        // Responsive check and optimization
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Recreate candles and particles for new screen size
+                document.getElementById('candlesContainer').innerHTML = '';
+                document.getElementById('particlesContainer').innerHTML = '';
+                createCandles();
+                createParticles();
+            }, 500);
+        });
+
+        // Touch device support
+        if ('ontouchstart' in window) {
+            document.addEventListener('touchmove', (e) => {
+                const touch = e.touches[0];
+                if (Math.random() > 0.8) {
+                    createSparkle(touch.clientX, touch.clientY);
+                }
+            });
+        }
+
+        // Prevent sparkle overflow on small screens
+        if (window.innerWidth < 768) {
+            const originalCreateSparkle = createSparkle;
+            createSparkle = function(x, y) {
+                if (Math.random() > 0.5) { // Reduce sparkles on mobile
+                    originalCreateSparkle(x, y);
+                }
+            };
+        }
+    </script>
+</body>
+</html>
